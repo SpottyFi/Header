@@ -40,23 +40,56 @@ app.use(bodyParser.json());
 app.get('/artists/:artistID', (req, res) => {
   console.log('##########RECEIVING GET##########');
   if (!!parseInt(req.params.artistID)) {
-    HeaderDB.find({ artistID: parseInt(req.params.artistID) }, (err, artistObj) => {
-      res.statusCode = 200;
-      res.send(artistObj);
-    });
+    HeaderDB.find(
+      { artistID: parseInt(req.params.artistID) },
+      (err, artistObj) => {
+        res.statusCode = 200;
+        res.send(artistObj);
+      },
+    );
   } else {
     // conditional error handling if artistID parameter is string
-    res.status(400).send({ ERROR: 'artistID parameter accepts numbers between 1 and 100' });
+    res
+      .status(400)
+      .send({ ERROR: 'artistID parameter accepts numbers between 1 and 100' });
   }
 });
+
 app.post('/artists/:artistID', (req, res) => {
-  res.status(400).send({ ERROR: 'does not accept post request' });
+  // res.status(400).send({ ERROR: 'does not accept post request' });
+  HeaderDB.create(req.body, function(err, newData) {
+    err ? res.status(500).send(err) : res.status(201).send(newData);
+  });
 });
+
+app.put('/artists/:artistID', (req, res) => {
+  //updates current artist information, or overwrites an existing artist
+  HeaderDB.findOneAndUpdate(
+    { artistID: parseInt(req.params.artistID) },
+    req.body,
+    (err, artist) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(201).send(' successful update');
+      }
+    },
+  );
+  res.status(400).send({ ERROR: 'does not accept put request' });
+});
+
+app.delete('/artists/:artistID', (req, res) => {
+  res.status(400).send({ ERROR: 'does not accept artist deletion request' });
+});
+
 app.listen(process.env.PORT || 3004, function onStart(err) {
   if (err) {
     console.log(err);
   }
-  console.info(`==> 🌎 Listening on port %s. Open up http://127.0.0.1:${process.env.PORT || 3004}/ in your browser.`);
+  console.info(
+    `==> 🌎 Listening on port %s. Open up http://127.0.0.1:${process.env.PORT ||
+      3004}/ in your browser.`,
+  );
 });
 
 module.exports = app;
