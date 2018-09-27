@@ -55,12 +55,7 @@ app.get('/artists/:artistID', (req, res) => {
   }
 });
 
-app.post('/artists/:artistID', (req, res) => {
-  res.status(400).send('error on the side');
-  HeaderDB.create(req.body, function(err, newData) {
-    err ? res.status(500).send(err) : res.status(201).send(newData);
-  });
-});
+app.post('/artists/:artistID', (req, res) => {});
 
 app.put('/artists/:artistID', (req, res) => {
   //updates current artist information, or overwrites an existing artist
@@ -75,7 +70,6 @@ app.put('/artists/:artistID', (req, res) => {
       }
     },
   );
-  res.status(400).send({ ERROR: 'does not accept put request' });
 });
 
 app.delete('/artists/:artistID', (req, res) => {
