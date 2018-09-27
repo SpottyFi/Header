@@ -45,6 +45,8 @@ for (let i = 1; i <= 100; i++) {
   newArtist.followersNumber = Object.values(newArtist.about.Where).reduce(
     (accumulator, currentValue) => accumulator + currentValue,
   );
+
+  console.log(newArtist);
   HeaderDB.create(newArtist, function(err, newData) {
     err ? console.error(error) : console.log(newData);
   });

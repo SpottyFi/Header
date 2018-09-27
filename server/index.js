@@ -56,7 +56,7 @@ app.get('/artists/:artistID', (req, res) => {
 });
 
 app.post('/artists/:artistID', (req, res) => {
-  // res.status(400).send({ ERROR: 'does not accept post request' });
+  res.status(400).send('error on the side');
   HeaderDB.create(req.body, function(err, newData) {
     err ? res.status(500).send(err) : res.status(201).send(newData);
   });
