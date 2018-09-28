@@ -9,12 +9,18 @@ console.log('Starting data generation');
 stream.write('[');
 const MAX = 25000;
 let counter = 0;
-for (let i = 1; i <= 2; i += 1) {
+for (let i = 1; i <= MAX; i += 1) {
   let imageArr = [
-    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number({min:1, max:1000})}.jpeg`,
-    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number({min:1, max:1000})}.jpeg`,
-    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number({min:1, max:1000})}.jpeg`
-  ]
+    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number(
+      { min: 1, max: 1000 },
+    )}.jpeg`,
+    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number(
+      { min: 1, max: 1000 },
+    )}.jpeg`,
+    `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number(
+      { min: 1, max: 1000 },
+    )}.jpeg`,
+  ];
   let artist = {
     artistName: faker.name.findName(),
     followed: faker.random.boolean(),

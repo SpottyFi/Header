@@ -1,10 +1,13 @@
-TODO
+
 
 ## git rm -r --cached jestOutput ##
 jestOutput/
 
 ## MAC files ##
 .DS_Store
+
+## Ignore JSON seed data file
+database/seed_data.JSON
 
 ## NPM ##
 npm
