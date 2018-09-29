@@ -1,15 +1,13 @@
 const faker = require('faker');
 const fs = require('fs');
-const coolImages = require('cool-images');
-let city = require('./cityCreation.js');
+let city = require('../cityCreation.js');
 
-const stream = fs.createWriteStream('../seed_data.json');
+const stream = fs.createWriteStream('../seed_data_90.json');
 
+// const { MAX } = process.env;
 console.log('Starting data generation');
 stream.write('[');
-const MAX = 25000;
-let counter = 0;
-for (let i = 1; i <= MAX; i += 1) {
+for (let i = 9e6 + 1; i <= 10e6; i += 1) {
   let imageArr = [
     `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number(
       { min: 1, max: 1000 },
@@ -22,6 +20,7 @@ for (let i = 1; i <= MAX; i += 1) {
     )}.jpeg`,
   ];
   let artist = {
+    id: i,
     artistName: faker.name.findName(),
     followed: faker.random.boolean(),
     followersNumber: city.cityCreation()[1],
@@ -35,10 +34,10 @@ for (let i = 1; i <= MAX; i += 1) {
       Where: city.cityCreation()[0],
     },
   };
-  counter++;
-  stream.write(JSON.stringify(artist) + (i !== MAX ? ',' : ''));
+  console.log(i);
+  stream.write(JSON.stringify(artist) + (i !== 10e6 ? ',' : ''));
 }
 stream.write(']');
 stream.end(() => {
-  console.log(counter, 'artists created');
+  console.log(counter, 'artists created, 4-5');
 });

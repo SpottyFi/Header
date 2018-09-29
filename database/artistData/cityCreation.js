@@ -3,7 +3,7 @@ const header = ['city', 'totalListeners'];
 let cityCreation = () => {
   let citiesObj = {};
   let totalListeners = 0;
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 20; i++) {
     listenersPerCity = faker.random.number({
       min: 1000,
       max: 120000,
