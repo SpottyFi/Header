@@ -15,7 +15,7 @@ const processExecutable = (error, stdout, stderr) => {
 //amount of object created
 const MAX = 9e6; // change to larger number after testing
 
-exec('node ./database/artistData/artistSeed/artistOne.js', processExecutable);
+// exec('node ./database/artistData/artistSeed/artistOne.js', processExecutable);
 // exec(
 //   'node ./database/artistData/artistSeed/artistTwo.js',
 //   processExecutable,
@@ -24,7 +24,7 @@ exec('node ./database/artistData/artistSeed/artistOne.js', processExecutable);
 console.log('Starting data generation');
 stream.write('[');
 
-for (let i = 8e6 + 1; i <= MAX; i += 1) {
+for (let i = 1; i <= 3; i += 1) {
   let imageArr = [
     `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${faker.random.number(
       { min: 1, max: 1000 },
@@ -51,7 +51,7 @@ for (let i = 8e6 + 1; i <= MAX; i += 1) {
       Where: city.cityCreation()[0],
     },
   };
-  stream.write(JSON.stringify(artist) + (i !== MAX ? ',' : ''));
+  stream.write(JSON.stringify(artist) + (i !== 3 ? ',' : ''));
 }
 stream.write(']');
 stream.end(() => {
