@@ -2,7 +2,7 @@ const faker = require('faker');
 const createCsvWriter = require('csv-writer').createArrayCsvWriter;
 
 const csvWriter = createCsvWriter({
-  header: ['id', 'city'],
+  header: ['cityID', 'city'],
   path: '../allCSVFiles/cities.csv',
 });
 
