@@ -9,7 +9,6 @@ let joinCityTable = nameCSV => {
     counter++;
     //artist id is i
     let artist = i;
-
     for (var j = 0; j < 10; j++) {
       //number of cities to add to each artist
       let cityID = faker.random.number({ min: 1, max: 1000 });
@@ -24,10 +23,3 @@ let joinCityTable = nameCSV => {
     }
   }
 };
-
-joinCityTable('joinCity60.csv');
-
-// select city, followers, artistID
-// from cities
-// inner join citiesJoin on citiesJoin.cityID = cities.cityID
-// where citiesJoin.artistID = 450042;
