@@ -27,3 +27,7 @@ CREATE TABLE ImagesJoin (
     artistID INTEGER references Artists(artistID),
     imageID INTEGER references images(imageID)
 );
+CREATE TABLE artistImagesArray (
+    artistID INTEGER references Artists(artistID),
+    imageArr text
+)
