@@ -29,6 +29,7 @@
     "mongoose": "^5.2.13",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
+    "pg": "^7.4.3",
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.2",
     "rc-dropdown": "^2.2.0",
