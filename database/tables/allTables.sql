@@ -12,21 +12,12 @@ CREATE TABLE Cities(
     city VARCHAR(160)
 );
 
-CREATE TABLE Images(
-    imageID INTEGER PRIMARY KEY, 
-    imageURL VARCHAR(160)
-);
-
 CREATE TABLE CitiesJoin (
     artistID INTEGER references Artists(artistID),
     cityID INTEGER references Cities(cityID),
     followers INTEGER
 );
 
-CREATE TABLE ImagesJoin (
-    artistID INTEGER references Artists(artistID),
-    imageID INTEGER references images(imageID)
-);
 CREATE TABLE artistImagesArray (
     artistID INTEGER references Artists(artistID),
     imageArr text

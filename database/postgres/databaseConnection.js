@@ -6,12 +6,5 @@ const client = new Client({
   password: 'postgres',
   port: 5432,
 });
-client.connect();
 
-client.query('SELECT * from artists where artistid = 1234233', (err, res) => {
-  if (err) {
-    console.log(err, ' is the the err');
-  }
-  console.log(res.rows[0], ' the returned result');
-  client.end();
-});
+module.exports = client;
