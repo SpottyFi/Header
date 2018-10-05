@@ -20,7 +20,7 @@ let joinImageTable = nameCSV => {
   fs.writeFileSync(nameCSV, 'artistID,imagesArr\n');
   let counter = 0;
   let data = '';
-  for (var i = 1; i <= 5e6; i++) {
+  for (var i = 1 + 5e6; i <= 10e6; i++) {
     counter++;
     //artist id is i
     let artistID = i;
@@ -37,7 +37,7 @@ let joinImageTable = nameCSV => {
   }
 };
 
-joinImageTable('imagesArr05.csv');
+joinImageTable('imagesArr50.csv');
 // let joinImageTable = nameCSV => {
 //   fs.writeFileSync(nameCSV, 'artistID,imageID\n');
 //   let counter = 0;

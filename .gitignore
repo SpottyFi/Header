@@ -32,3 +32,8 @@ coverage
 build/
 
 
+database/artistData/secondaryData/imagesArr05.csv
+public/dist/bundle.js.map
+public/dist/bundle.js
+public/dist/bundle.js.gz
+public/dist/bundle.js.map.gz

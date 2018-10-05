@@ -6,7 +6,7 @@ import Header from './Header.jsx';
 
 const getArtistInfo = callback => {
   axios
-    .get(`/artists/${Math.floor(Math.random() * 99 + 1)}`)
+    .get(`/artists/${Math.floor(Math.random() * 10000000 + 1)}`)
     .then(response => {
       console.log(response.data, ' response data from server');
       callback(response.data);
