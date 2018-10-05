@@ -9,13 +9,15 @@ class LocationStat extends Component {
     super(props);
   }
   render() {
-    // console.log('COMPONENT: LOCATION STAT:', this.props);
+    console.log('COMPONENT: LOCATION STAT:', this.props);
     const locationData = Object.entries(this.props.stats);
     locationData.sort((a, b) => b[1] - a[1]);
     const entryToRender = (location, followerCount) => (
       <div className="locationStat-entry">
         <h5 className="locationStat-location">{location}</h5>
-        <h6 className="locationStat-followerCount">{followerCount.toLocaleString('en')} followers</h6>
+        <h6 className="locationStat-followerCount">
+          {followerCount.toLocaleString('en')} followers
+        </h6>
       </div>
     );
     return (

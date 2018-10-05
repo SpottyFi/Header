@@ -1,3 +1,4 @@
+const newrelic = require('newrelic');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
@@ -35,7 +36,7 @@ app.use(cors());
 const bodyParser = require('body-parser');
 const HeaderDB = require('../database/index.js');
 app.use(bodyParser.json());
-// app.use(express.static(__dirname + '/../public/dist'));
+app.use(express.static(__dirname + '/../public/dist'));
 
 // Upon GET request to '/artist/:artistID', queries the HeaderDB (mongoDB) and sends back artistObj.
 // app.get('/artists/:artistID', (req, res) => {
@@ -45,6 +46,7 @@ app.use(bodyParser.json());
 //       { artistID: parseInt(req.params.artistID) },
 //       (err, artistObj) => {
 //         res.statusCode = 200;
+//         console.log(artistObj, ' the artist Obj');
 //         res.send(artistObj);
 //       },
 //     );
@@ -58,7 +60,7 @@ app.use(bodyParser.json());
 
 app.get('/artists/:artistID', postgres.getData);
 
-app.post('/artists/:artistID', (req, res) => {});
+app.post('/artists/:artistID', postgres.postData);
 
 app.put('/artists/:artistID', (req, res) => {
   //updates current artist information, or overwrites an existing artist

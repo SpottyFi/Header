@@ -6,10 +6,10 @@ import Header from './Header.jsx';
 
 const getArtistInfo = callback => {
   axios
-    .get(`/artists/${Math.floor(Math.random() * 99 + 1)}`)
+    .get(`/artists/${Math.floor(Math.random() * 10000000 + 1)}`)
     .then(response => {
-      // console.log(response.data);
-      callback(response.data[0]);
+      console.log(response.data, ' response data from server');
+      callback(response.data);
     })
     .catch(error => {
       // console.error(error);
@@ -21,7 +21,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      artistDisp: null
+      artistDisp: null,
     };
     this.handleFollowToggle = this.handleFollowToggle.bind(this);
   }
@@ -38,13 +38,24 @@ class App extends Component {
     this.setState(prevState => {
       // NOTE: trick when you wanto update a part of an object.
       return {
-        artistDisp: { ...prevState.artistDisp, followed: !prevState.artistDisp.followed }
+        artistDisp: {
+          ...prevState.artistDisp,
+          followed: !prevState.artistDisp.followed,
+        },
       };
     });
   }
 
   render() {
-    const toRender = !!this.state.artistDisp ? <Header artist={this.state.artistDisp} handleFollowToggle={this.handleFollowToggle} /> : <div className="placeHolder" />;
+    console.log(this.state.artistDisp, ' the artist jispl');
+    const toRender = !!this.state.artistDisp ? (
+      <Header
+        artist={this.state.artistDisp}
+        handleFollowToggle={this.handleFollowToggle}
+      />
+    ) : (
+      <div className="placeHolder" />
+    );
     return <React.Fragment>{toRender}</React.Fragment>;
   }
 }
