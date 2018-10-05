@@ -38,26 +38,26 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../public/dist'));
 
 // Upon GET request to '/artist/:artistID', queries the HeaderDB (mongoDB) and sends back artistObj.
-app.get('/artists/:artistID', (req, res) => {
-  console.log('##########RECEIVING GET##########');
-  if (!!parseInt(req.params.artistID)) {
-    HeaderDB.find(
-      { artistID: parseInt(req.params.artistID) },
-      (err, artistObj) => {
-        res.statusCode = 200;
-        console.log(artistObj, ' the artist Obj');
-        res.send(artistObj);
-      },
-    );
-  } else {
-    // conditional error handling if artistID parameter is string
-    res
-      .status(400)
-      .send({ ERROR: 'artistID parameter accepts numbers between 1 and 100' });
-  }
-});
+// app.get('/artists/:artistID', (req, res) => {
+//   console.log('##########RECEIVING GET##########');
+//   if (!!parseInt(req.params.artistID)) {
+//     HeaderDB.find(
+//       { artistID: parseInt(req.params.artistID) },
+//       (err, artistObj) => {
+//         res.statusCode = 200;
+//         console.log(artistObj, ' the artist Obj');
+//         res.send(artistObj);
+//       },
+//     );
+//   } else {
+//     // conditional error handling if artistID parameter is string
+//     res
+//       .status(400)
+//       .send({ ERROR: 'artistID parameter accepts numbers between 1 and 100' });
+//   }
+// });
 
-// app.get('/artists/:artistID', postgres.getData);
+app.get('/artists/:artistID', postgres.getData);
 
 app.post('/artists/:artistID', postgres.postData);
 

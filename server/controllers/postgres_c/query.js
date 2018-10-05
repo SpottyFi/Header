@@ -16,21 +16,20 @@ exports.getData = (req, res) => {
     },
   };
   client.query(
-    `SELECT artistname, followed, verified, biography, imagearr \
+    `SELECT artistname, followed, verified, biography, imagesarr \
     FROM artists \
-    INNER JOIN imagesarray on imagesarray.artistid = artists.artistid \
+    INNER JOIN imagesarr on imagesarr.artistid = artists.artistid \
     WHERE artists.artistid = ${artist};`,
     (err, resp) => {
       if (err) {
         res.status(500).send(err, ' there was an error somewhere');
       }
-      artistResponse.artistName = resp.rows[0].artistName;
-      artistResponse.artistImages = JSON.parse(
-        '["https://s3-us-west-1.amazonaws.com/imagesforartist/images/557.jpeg","https://s3-us-west-1.amazonaws.com/imagesforartist/images/625.jpeg","https://s3-us-west-1.amazonaws.com/imagesforartist/images/192.jpeg","https://s3-us-west-1.amazonaws.com/imagesforartist/images/847.jpeg"]',
-      );
+      artistResponse.artistName = resp.rows[0].artistname;
+      artistResponse.artistImages = resp.rows[0].imagesarr;
       artistResponse.followed = resp.rows[0].followed;
       artistResponse.verified = resp.rows[0].verified;
       artistResponse.about.biography = resp.rows[0].biography;
+      console.log(typeof resp.rows[0].imagesarr);
       client.query(
         `SELECT city, followers \
         FROM cities \

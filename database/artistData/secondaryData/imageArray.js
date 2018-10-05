@@ -3,12 +3,13 @@ const fs = require('fs');
 
 function imageCreation() {
   let imagesArr = '"[';
-  for (var i = 1; i <= 4; i++) {
+  let imgNumber = faker.random.number({ min: 3, max: 8 });
+  for (var i = 1; i <= imgNumber; i++) {
     let imageID = faker.random.number({ min: 1, max: 1000 });
     imagesArr +=
-      "'" +
+      '""' +
       `https://s3-us-west-1.amazonaws.com/imagesforartist/images/${imageID}.jpeg` +
-      "',";
+      '"",';
   }
   imagesArr = imagesArr.slice(0, -1);
   imagesArr += ']"';
@@ -19,7 +20,7 @@ let joinImageTable = nameCSV => {
   fs.writeFileSync(nameCSV, 'artistID,imagesArr\n');
   let counter = 0;
   let data = '';
-  for (var i = 5e6 + 1; i <= 10e6; i++) {
+  for (var i = 1; i <= 5e6; i++) {
     counter++;
     //artist id is i
     let artistID = i;
@@ -36,7 +37,7 @@ let joinImageTable = nameCSV => {
   }
 };
 
-joinImageTable('imagesArr510.csv');
+joinImageTable('imagesArr05.csv');
 // let joinImageTable = nameCSV => {
 //   fs.writeFileSync(nameCSV, 'artistID,imageID\n');
 //   let counter = 0;
