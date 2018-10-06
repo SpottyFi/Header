@@ -17,18 +17,18 @@ function imageCreation() {
 }
 
 let joinImageTable = nameCSV => {
-  fs.writeFileSync(nameCSV, 'artistID,imagesArr\n');
+  fs.writeFileSync(nameCSV, 'imagesarr\n');
   let counter = 0;
   let data = '';
-  for (var i = 1 + 5e6; i <= 10e6; i++) {
+  for (var i = 1; i <= 10; i++) {
     counter++;
     //artist id is i
     let artistID = i;
 
     let imageArr = imageCreation();
 
-    data += `${artistID},${imageArr}\n`;
-    if (counter === 100000) {
+    data += `${imageArr}\n`;
+    if (counter === 1) {
       fs.appendFileSync(nameCSV, data);
       data = '';
       console.log(counter, ' appended');
@@ -37,7 +37,8 @@ let joinImageTable = nameCSV => {
   }
 };
 
-joinImageTable('imagesArr50.csv');
+// joinImageTable('artisttest.csv');
+module.exports.imageCreation = imageCreation;
 // let joinImageTable = nameCSV => {
 //   fs.writeFileSync(nameCSV, 'artistID,imageID\n');
 //   let counter = 0;

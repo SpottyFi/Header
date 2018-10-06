@@ -1,4 +1,4 @@
-exports.sorter = objArr => {
+let sorter = objArr => {
   let topCities = {};
   let count = 0;
   let totalFollowers = 0;
@@ -14,45 +14,19 @@ exports.sorter = objArr => {
   return [topCities, totalFollowers];
 };
 
-let citiesArr = [
-  {
-    city: 'Cieloville',
-    followers: 316832,
-  },
-  {
-    city: 'Reynoldshaven',
-    followers: 301088,
-  },
-  {
-    city: 'Anikaland',
-    followers: 265012,
-  },
-  {
-    city: 'North Vito',
-    followers: 210607,
-  },
-  {
-    city: 'Annabellshire',
-    followers: 203374,
-  },
-  {
-    city: 'Gleichnerview',
-    followers: 158577,
-  },
-  {
-    city: 'Port Rosalyn',
-    followers: 86889,
-  },
-  {
-    city: 'Princesschester',
-    followers: 77998,
-  },
-  {
-    city: 'Feilville',
-    followers: 71925,
-  },
-  {
-    city: 'New Camilla',
-    followers: 16046,
-  },
-];
+exports.construction = response => {
+  let top = sorter(response);
+  // console.log(top, ' the response');
+  let artistResponse = {
+    artistImages: response[0].imagesarr,
+    artistName: response[0].artistname,
+    followed: response[0].followed,
+    verified: response[0].verified,
+    followersNumber: top[1],
+    about: {
+      biography: response[0].biography,
+      where: top[0],
+    },
+  };
+  return artistResponse;
+};

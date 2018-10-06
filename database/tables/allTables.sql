@@ -1,10 +1,11 @@
 CREATE TABLE Artists(
-    artistID INTEGER PRIMARY KEY,
+    artistID SERIAL PRIMARY KEY,
     artistName VARCHAR(160),
     followed Boolean,
     followedNumber int,
     verified Boolean,
-    Biography VARCHAR(1000)
+    Biography VARCHAR(1000),
+    imagesarr JSON
 );
 
 CREATE TABLE Cities(

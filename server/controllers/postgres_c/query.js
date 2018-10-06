@@ -4,50 +4,20 @@ pool.connect();
 
 exports.getData = (req, res) => {
   let artist = req.params.artistID;
-  let artistResponse = {
-    artistImages: null,
-    artistName: null,
-    followed: null,
-    verified: null,
-    followersNumber: null,
-    about: {
-      biography: null,
-      where: null,
-    },
-  };
   pool.query(
-    `SELECT artistname, followed, verified, biography, imagesarr \
-    FROM artists \
-    INNER JOIN imagesarr on imagesarr.artistid = artists.artistid \
-    WHERE artists.artistid = ${artist};`,
+    ` SELECT artistname, followed, verified, biography, imagesarr, city, followers
+    FROM citiesjoin
+    INNER JOIN artists ON artists.artistid = citiesjoin.artistid
+    INNER JOIN cities on cities.cityid = citiesjoin.cityid
+    WHERE citiesjoin.artistid = $1
+    ORDER BY followers DESC;`,
+    [artist],
     (err, resp) => {
       if (err) {
-        res.status(500).send(err, ' there was an error somewhere');
+        res.status(500).send(err, ' this is the err');
       }
-      artistResponse.artistName = resp.rows[0].artistname;
-      artistResponse.artistImages = resp.rows[0].imagesarr;
-      artistResponse.followed = resp.rows[0].followed;
-      artistResponse.verified = resp.rows[0].verified;
-      artistResponse.about.biography = resp.rows[0].biography;
-      console.log(typeof resp.rows[0].imagesarr);
-      pool.query(
-        `SELECT city, followers \
-        FROM cities \
-        INNER JOIN citiesjoin on cities.cityid = citiesjoin.cityid \
-        WHERE citiesjoin.artistid = ${artist}
-        ORDER BY followers DESC;`,
-        (err, resp) => {
-          if (err) {
-            res
-              .status(500)
-              .send(err, ' there was an error in the cities piece');
-          }
-          let top = cities.sorter(resp.rows);
-          artistResponse.about.where = top[0];
-          artistResponse.followersNumber = top[1];
-          res.status(201).send(artistResponse);
-        },
-      );
+      let struck = cities.construction(resp.rows);
+      res.status(201).send(struck);
     },
   );
 };
@@ -86,3 +56,40 @@ exports.postData = (req, res) => {
     })
     .catch(e => res.status(500).send(e));
 };
+
+// pool.query(
+//   `SELECT artistname, followed, verified, biography, imagesarr \
+//   FROM citiesjoin \
+//   INNER JOIN cities ON cities.cityid = citiesjoin.cityid
+//   INNER JOIN artists on artists.artistid = citiesjoin.artistid \
+//   WHERE artists.artistid = ${artist} \
+//   ORDER BY followers DESC;`,
+//   (err, resp) => {
+//     if (err) {
+//       res.status(500).send(err, ' there was an error somewhere');
+//     }
+//     artistResponse.artistName = resp.rows[0].artistname;
+//     artistResponse.artistImages = resp.rows[0].imagesarr;
+//     artistResponse.followed = resp.rows[0].followed;
+//     artistResponse.verified = resp.rows[0].verified;
+//     artistResponse.about.biography = resp.rows[0].biography;
+//     pool.query(
+//       `SELECT city, followers \
+//       FROM cities \
+//       INNER JOIN citiesjoin on cities.cityid = citiesjoin.cityid \
+//       WHERE citiesjoin.artistid = ${artist}
+//       ORDER BY followers DESC;`,
+//       (err, resp) => {
+//         if (err) {
+//           res
+//             .status(500)
+//             .send(err, ' there was an error in the cities piece');
+//         }
+//         let top = cities.sorter(resp.rows);
+//         artistResponse.about.where = top[0];
+//         artistResponse.followersNumber = top[1];
+//         res.status(201).send(artistResponse);
+//       },
+//     );
+//   },
+// );
