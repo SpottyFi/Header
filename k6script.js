@@ -4,7 +4,7 @@ import { check } from 'k6';
 export let options = {
   vus: 100,
   rps: 2000,
-  duration: '1m',
+  duration: '3m',
 };
 
 export default function() {
