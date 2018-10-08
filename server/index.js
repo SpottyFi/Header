@@ -1,94 +1,70 @@
 const newrelic = require('newrelic');
+const cluster = require('cluster');
+const os = require('os');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const postgres = require('./controllers/postgres_c/query.js');
-require('console-stamp')(console, 'HH:MM:ss.l');
 
-const app = express();
-app.use(require('morgan')('short'));
-app.use(cors());
-// *************webpack-hot-middleware set-up*******************
-// // Step 1: Create & configure a webpack compiler
-
-// const webpack = require('webpack');
-// const webpackConfig = require('../webpack.config');
-// const compiler = webpack(webpackConfig);
-
-// // Step 2: Attach the dev middleware to the compiler & the app
-// app.use(
-//   require('webpack-dev-middleware')(compiler, {
-//     logLevel: 'warn',
-//     publicPath: webpackConfig.output.publicPath
-//   })
-// );
-
-// // Step 3: Attach the hot middleware to the compiler & the app
-// app.use(
-//   require('webpack-hot-middleware')(compiler, {
-//     log: console.log,
-//     path: '/__webpack_hmr',
-//     heartbeat: 10 * 1000
-//   })
-// );
-// SOURCE: https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example
-// ************************************
-const bodyParser = require('body-parser');
-const HeaderDB = require('../database/index.js');
-app.use(bodyParser.json());
-app.use(express.static(__dirname + '/../public/dist'));
-
-// Upon GET request to '/artist/:artistID', queries the HeaderDB (mongoDB) and sends back artistObj.
-// app.get('/artists/:artistID', (req, res) => {
-//   console.log('##########RECEIVING GET##########');
-//   if (!!parseInt(req.params.artistID)) {
-//     HeaderDB.find(
-//       { artistID: parseInt(req.params.artistID) },
-//       (err, artistObj) => {
-//         res.statusCode = 200;
-//         console.log(artistObj, ' the artist Obj');
-//         res.send(artistObj);
-//       },
-//     );
-//   } else {
-//     // conditional error handling if artistID parameter is string
-//     res
-//       .status(400)
-//       .send({ ERROR: 'artistID parameter accepts numbers between 1 and 100' });
-//   }
-// });
-
-app.get('/artists/:artistID', postgres.getData);
-
-app.post('/artists/:artistID', postgres.postData);
-
-app.put('/artists/:artistID', (req, res) => {
-  //updates current artist information, or overwrites an existing artist
-  HeaderDB.findOneAndUpdate(
-    { artistID: parseInt(req.params.artistID) },
-    req.body,
-    (err, artist) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(201).send(' successful update');
-      }
-    },
-  );
-});
-
-app.delete('/artists/:artistID', (req, res) => {
-  res.status(400).send({ ERROR: 'does not accept artist deletion request' });
-});
-
-app.listen(process.env.PORT || 3004, function onStart(err) {
-  if (err) {
-    console.log(err);
+if (cluster.isMaster) {
+  const cpuCount = os.cpus().length;
+  for (let i = 0; i < cpuCount; i++) {
+    cluster.fork();
   }
-  console.info(
-    `==> 🌎 Listening on port %s. Open up http://127.0.0.1:${process.env.PORT ||
-      3004}/ in your browser.`,
-  );
-});
+} else {
+  const app = express();
 
-module.exports = app;
+  app.use(cors());
+  // *************webpack-hot-middleware set-up*******************
+  // // Step 1: Create & configure a webpack compiler
+
+  // const webpack = require('webpack');
+  // const webpackConfig = require('../webpack.config');
+  // const compiler = webpack(webpackConfig);
+
+  // // Step 2: Attach the dev middleware to the compiler & the app
+  // app.use(
+  //   require('webpack-dev-middleware')(compiler, {
+  //     logLevel: 'warn',
+  //     publicPath: webpackConfig.output.publicPath
+  //   })
+  // );
+
+  // // Step 3: Attach the hot middleware to the compiler & the app
+  // app.use(
+  //   require('webpack-hot-middleware')(compiler, {
+  //     log: console.log,
+  //     path: '/__webpack_hmr',
+  //     heartbeat: 10 * 1000
+  //   })
+  // );
+  // SOURCE: https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example
+  // ************************************
+  const bodyParser = require('body-parser');
+  app.use(bodyParser.json());
+  app.use(express.static(__dirname + '/../public/dist'));
+
+  app.get('/artists/:artistID', postgres.getData);
+
+  app.post('/artists/:artistID', postgres.postData);
+
+  app.delete('/artists/:artistID', (req, res) => {
+    res.status(400).send({ ERROR: 'does not accept artist deletion request' });
+  });
+
+  app.listen(process.env.PORT || 3004, function onStart(err) {
+    if (err) {
+      console.log(err);
+    }
+    console.info(
+      `==> 🌎 Listening on port %s. Open up http://127.0.0.1:${process.env
+        .PORT || 3004}/ in your browser.`,
+    );
+  });
+
+  module.exports = app;
+}
+cluster.on('exit', worker => {
+  console.log('mayday! mayday! worker', worker.id, ' is no more!');
+  cluster.fork();
+});

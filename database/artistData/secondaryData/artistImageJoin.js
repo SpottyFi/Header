@@ -24,5 +24,3 @@ let joinImageTable = nameCSV => {
     }
   }
 };
-
-joinImageTable('joinimageWhole.csv');

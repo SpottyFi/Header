@@ -1,15 +1,15 @@
 const faker = require('faker');
 const fs = require('fs');
-
+const image = require('./artistData/secondaryData/imageArray.js');
 let artist = nameCSV => {
   fs.writeFileSync(
     nameCSV,
-    'artistID, artistName,followed,followersNumber,verified,biography',
+    'artistID, artistName,followed,followersNumber,verified,biography,imagesarr\n',
   );
   let counter = 0;
   let data = '';
   let multiple = 1;
-  for (var i = 1; i <= 10e6; i++) {
+  for (var i = 1 + 5e6; i <= 10e6; i++) {
     counter++;
     let artistID = i;
     let artistName = faker.name.findName();
@@ -19,16 +19,16 @@ let artist = nameCSV => {
     let biography = faker.lorem.sentences(
       faker.random.number({ min: 7, max: 14 }),
     );
-    data += `\n${artistID},${artistName},${followed},${followedNumber},${verified},${biography}`;
+    let imagesarr = image.imageCreation();
+    data += `${artistID},${artistName},${followed},${followedNumber},${verified},${biography},${imagesarr}\n`;
 
-    if (counter === 250000) {
+    if (counter === 200000) {
       fs.appendFileSync(nameCSV, data);
-      console.log(multiple, ' appended');
-      multiple++;
+      console.log(counter);
       data = '';
       counter = 0;
     }
   }
 };
 
-artist('artistAll.csv');
+artist('artistLast.csv');
