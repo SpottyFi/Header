@@ -5,7 +5,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const postgres = require('./controllers/postgres_c/query.js');
-// require('console-stamp')(console, 'HH:MM:ss.l');
+
 if (cluster.isMaster) {
   const cpuCount = os.cpus().length;
   for (let i = 0; i < cpuCount; i++) {
@@ -13,7 +13,7 @@ if (cluster.isMaster) {
   }
 } else {
   const app = express();
-  // app.use(require('morgan')('short'));
+
   app.use(cors());
   // *************webpack-hot-middleware set-up*******************
   // // Step 1: Create & configure a webpack compiler

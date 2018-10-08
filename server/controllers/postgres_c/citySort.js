@@ -16,7 +16,6 @@ let sorter = objArr => {
 
 exports.construction = response => {
   let top = sorter(response);
-  // console.log(top, ' the response');
   let artistResponse = {
     artistImages: response[0].imagesarr,
     artistName: response[0].artistname,
