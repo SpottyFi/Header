@@ -16,5 +16,3 @@ async function cityCreation() {
     .then(console.log('done bitch'));
   return result;
 }
-
-cityCreation();

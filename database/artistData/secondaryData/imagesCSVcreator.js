@@ -19,5 +19,3 @@ async function imageCreation() {
     .then(console.log('done bitch'));
   return result;
 }
-
-imageCreation();

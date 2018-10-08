@@ -31,5 +31,3 @@ let artist = nameCSV => {
     }
   }
 };
-
-artist('artists410.csv');

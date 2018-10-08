@@ -23,5 +23,3 @@ let joinCityTable = nameCSV => {
     }
   }
 };
-
-joinCityTable('cityjoinTest.csv');

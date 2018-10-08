@@ -41,7 +41,6 @@ if (cluster.isMaster) {
   // SOURCE: https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example
   // ************************************
   const bodyParser = require('body-parser');
-  // const HeaderDB = require('../database/index.js');
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/../public/dist'));
 
