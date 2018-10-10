@@ -8,7 +8,6 @@ let artist = nameCSV => {
   );
   let counter = 0;
   let data = '';
-  let multiple = 1;
   for (var i = 1 + 5e6; i <= 10e6; i++) {
     counter++;
     let artistID = i;
@@ -22,7 +21,7 @@ let artist = nameCSV => {
     let imagesarr = image.imageCreation();
     data += `${artistID},${artistName},${followed},${followedNumber},${verified},${biography},${imagesarr}\n`;
 
-    if (counter === 200000) {
+    if (counter === 250000) {
       fs.appendFileSync(nameCSV, data);
       console.log(counter);
       data = '';
@@ -31,4 +30,4 @@ let artist = nameCSV => {
   }
 };
 
-artist('artistLast.csv');
+artist('artist_510.csv');

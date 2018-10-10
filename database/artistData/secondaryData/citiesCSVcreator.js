@@ -3,7 +3,7 @@ const createCsvWriter = require('csv-writer').createArrayCsvWriter;
 
 const csvWriter = createCsvWriter({
   header: ['cityID', 'city'],
-  path: '../allCSVFiles/cities.csv',
+  path: '../cities.csv',
 });
 
 async function cityCreation() {
@@ -16,3 +16,5 @@ async function cityCreation() {
     .then(console.log('done bitch'));
   return result;
 }
+
+cityCreation();
