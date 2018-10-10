@@ -1,4 +1,4 @@
-const newrelic = require('newrelic');
+// const newrelic = require('newrelic');
 const cluster = require('cluster');
 const os = require('os');
 const path = require('path');
@@ -13,7 +13,9 @@ if (cluster.isMaster) {
   }
 } else {
   const app = express();
-
+  const bodyParser = require('body-parser');
+  app.use(bodyParser.json());
+  app.use(express.static(__dirname + '/../public/dist'));
   app.use(cors());
   // *************webpack-hot-middleware set-up*******************
   // // Step 1: Create & configure a webpack compiler
@@ -40,11 +42,8 @@ if (cluster.isMaster) {
   // );
   // SOURCE: https://github.com/webpack-contrib/webpack-hot-middleware/tree/master/example
   // ************************************
-  const bodyParser = require('body-parser');
-  app.use(bodyParser.json());
-  app.use(express.static(__dirname + '/../public/dist'));
 
-  app.get('/artists/:artistID', postgres.getData);
+  app.get('/artists/:artistID', postgres.getCache);
 
   app.post('/artists/:artistID', postgres.postData);
 

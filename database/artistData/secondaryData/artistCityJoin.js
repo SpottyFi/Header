@@ -5,7 +5,7 @@ let joinCityTable = nameCSV => {
   fs.writeFileSync(nameCSV, 'artistID,cityID,followers\n');
   let counter = 0;
   let data = '';
-  for (var i = 1; i <= 3; i++) {
+  for (var i = 1 + 7500000; i <= 10e6; i++) {
     counter++;
     //artist id is i
     let artist = i;
@@ -15,7 +15,7 @@ let joinCityTable = nameCSV => {
       let listeners = faker.random.number({ min: 1000, max: 350000 });
       data += `${artist},${cityID},${listeners}\n`;
     }
-    if (counter === 1) {
+    if (counter === 250000) {
       fs.appendFileSync(nameCSV, data);
       data = '';
       console.log(counter, ' appended');
@@ -23,3 +23,5 @@ let joinCityTable = nameCSV => {
     }
   }
 };
+
+joinCityTable('last.csv');
